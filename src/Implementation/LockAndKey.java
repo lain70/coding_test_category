@@ -1,5 +1,8 @@
 package Implementation;
 
-public interface LockAndKey {
-
+public class LockAndKey {
+	public boolean solution(int[][] key, int[][] lock) {
+        boolean answer = true;
+        return answer;
+    }
 }
