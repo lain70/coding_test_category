@@ -31,17 +31,11 @@ public class TernaryBase {
 			temp += String.valueOf(n%3);
 			n /= 3;
 		}
-		temp = String.valueOf(Integer.valueOf(temp));
 		
-		String now ="";
-		for(String a : temp.split("")) {
-			now = a + now;
-		}
-		
-		int k = 1;
-		for(String a : now.split("")) {
-			answer += k * Integer.valueOf(a);
-			k *= 3;
+		int j= 1;
+		for(int i = temp.length(); i > 0; i--) {			
+			answer += Integer.valueOf(temp.substring(i-1, i)) * j;
+			j *= 3;
 		}
 		
         return answer;
@@ -49,7 +43,7 @@ public class TernaryBase {
     
     public static void main(String[] args) {
 		TernaryBase tb = new TernaryBase();
-		tb.solution(45);
+		System.out.println(tb.solution(125));
 //		System.out.println(toTeranary(45));
 //		System.out.println(reverse(toTeranary(150)));
 				
