@@ -51,7 +51,7 @@ public static void dfs(int[][] node, int now, boolean[] visited, List<Integer> r
 		
 		boolean[] visited2 = new boolean[info[0] + 1];
 		Arrays.fill(visited2, false);
-		Queue<Integer> que = new LinkedList<Integer>();		
+		Queue<Integer> que = new LinkedList<Integer>();
 		que.offer(info[2]);
 		visited2[info[2]] = true;
 		

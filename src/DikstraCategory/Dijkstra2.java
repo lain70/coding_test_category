@@ -3,24 +3,32 @@ package DikstraCategory;
 import java.util.*;
 
 class Node2 implements Comparable<Node2> {
+	private int index;
+	private int distance;
+	
+	
+	
+	public int getIndex() {
+		return index;
+	}
 
-    private int index;
-    private int distance;
+	public void setIndex(int index) {
+		this.index = index;
+	}
 
-    public Node2(int index, int distance) {
-        this.index = index;
-        this.distance = distance;
-    }
+	public int getDistance() {
+		return distance;
+	}
 
-    public int getIndex() {
-        return this.index;
-    }
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 
-    public int getDistance() {
-        return this.distance;
-    }
-
-    // °Å¸®(ºñ¿ë)°¡ ÂªÀº °ÍÀÌ ³ôÀº ¿ì¼±¼øÀ§¸¦ °¡Áöµµ·Ï ¼³Á¤
+	public Node2(int index, int distance) {
+		this.index = index;
+		this.distance = distance;
+	}
+	
     @Override
     public int compareTo(Node2 other) {
     	return Integer.compare(this.distance, other.distance);
@@ -29,31 +37,31 @@ class Node2 implements Comparable<Node2> {
 
 public class Dijkstra2 {
 
-    public static final int INF = Integer.MAX_VALUE; // ¹«ÇÑÀ» ÀÇ¹ÌÇÏ´Â °ªÀ¸·Î 10¾ïÀ» ¼³Á¤
-    // ³ëµåÀÇ °³¼ö(N), °£¼±ÀÇ °³¼ö(M), ½ÃÀÛ ³ëµå ¹øÈ£(Start)
-    // ³ëµåÀÇ °³¼ö´Â ÃÖ´ë 100,000°³¶ó°í °¡Á¤
+    public static final int INF = Integer.MAX_VALUE; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(N), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(M), ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£(Start)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ 100,000ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public static int n, m, start;
-    // °¢ ³ëµå¿¡ ¿¬°áµÇ¾î ÀÖ´Â ³ëµå¿¡ ´ëÇÑ Á¤º¸¸¦ ´ã´Â ¹è¿­
+    // ï¿½ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½è¿­
     public static ArrayList<ArrayList<Node2>> graph = new ArrayList<ArrayList<Node2>>();
-    // ÃÖ´Ü °Å¸® Å×ÀÌºí ¸¸µé±â
+    // ï¿½Ö´ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
     public static int[] d = new int[100001];
 
     public static void dijkstra(int start) {
         PriorityQueue<Node2> pq = new PriorityQueue<>();
-        // ½ÃÀÛ ³ëµå·Î °¡±â À§ÇÑ ÃÖ´Ü °æ·Î´Â 0À¸·Î ¼³Á¤ÇÏ¿©, Å¥¿¡ »ðÀÔ
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Î´ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½, Å¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         pq.offer(new Node2(start, 0));
         d[start] = 0;
-        while(!pq.isEmpty()) { // Å¥°¡ ºñ¾îÀÖÁö ¾Ê´Ù¸é
-            // °¡Àå ÃÖ´Ü °Å¸®°¡ ÂªÀº ³ëµå¿¡ ´ëÇÑ Á¤º¸ ²¨³»±â
+        while(!pq.isEmpty()) { // Å¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ Âªï¿½ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             Node2 node = pq.poll();
-            int dist = node.getDistance(); // ÇöÀç ³ëµå±îÁöÀÇ ºñ¿ë 
-            int now = node.getIndex(); // ÇöÀç ³ëµå
-            // ÇöÀç ³ëµå°¡ ÀÌ¹Ì Ã³¸®µÈ ÀûÀÌ ÀÖ´Â ³ëµå¶ó¸é ¹«½Ã
+            int dist = node.getDistance(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+            int now = node.getIndex(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½Ì¹ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (d[now] < dist) continue;
-            // ÇöÀç ³ëµå¿Í ¿¬°áµÈ ´Ù¸¥ ÀÎÁ¢ÇÑ ³ëµåµéÀ» È®ÀÎ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
             for (int i = 0; i < graph.get(now).size(); i++) {
                 int cost = d[now] + graph.get(now).get(i).getDistance();
-                // ÇöÀç ³ëµå¸¦ °ÅÃÄ¼­, ´Ù¸¥ ³ëµå·Î ÀÌµ¿ÇÏ´Â °Å¸®°¡ ´õ ÂªÀº °æ¿ì
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½Ä¼ï¿½, ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ Âªï¿½ï¿½ ï¿½ï¿½ï¿½
                 if (cost < d[graph.get(now).get(i).getIndex()]) {
                     d[graph.get(now).get(i).getIndex()] = cost;
                     pq.offer(new Node2(graph.get(now).get(i).getIndex(), cost));
@@ -69,33 +77,33 @@ public class Dijkstra2 {
         m = sc.nextInt();
         start = sc.nextInt();
 
-        // ±×·¡ÇÁ ÃÊ±âÈ­
+        // ï¿½×·ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         for (int i = 0; i <= n; i++) {
             graph.add(new ArrayList<Node2>());
         }
         
-        // ¸ðµç °£¼± Á¤º¸¸¦ ÀÔ·Â¹Þ±â
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â¹Þ±ï¿½
         for (int i = 0; i < m; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
             int c = sc.nextInt();
-            // a¹ø ³ëµå¿¡¼­ b¹ø ³ëµå·Î °¡´Â ºñ¿ëÀÌ c¶ó´Â ÀÇ¹Ì
+            // aï¿½ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ bï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ cï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½
             graph.get(a).add(new Node2(b, c));
         }
 
-        // ÃÖ´Ü °Å¸® Å×ÀÌºíÀ» ¸ðµÎ ¹«ÇÑÀ¸·Î ÃÊ±âÈ­
+        // ï¿½Ö´ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         Arrays.fill(d, INF);
         
-        // ´ÙÀÍ½ºÆ®¶ó ¾Ë°í¸®ÁòÀ» ¼öÇà
+        // ï¿½ï¿½ï¿½Í½ï¿½Æ®ï¿½ï¿½ ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         dijkstra(start);
 
-        // ¸ðµç ³ëµå·Î °¡±â À§ÇÑ ÃÖ´Ü °Å¸®¸¦ Ãâ·Â
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         for (int i = 1; i <= n; i++) {
-            // µµ´ÞÇÒ ¼ö ¾ø´Â °æ¿ì, ¹«ÇÑ(INFINITY)ÀÌ¶ó°í Ãâ·Â
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½(INFINITY)ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (d[i] == INF) {
                 System.out.println("INFINITY");
             }
-            // µµ´ÞÇÒ ¼ö ÀÖ´Â °æ¿ì °Å¸®¸¦ Ãâ·Â
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             else {
                 System.out.println(d[i]);
             }

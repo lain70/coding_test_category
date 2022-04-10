@@ -3,7 +3,7 @@ package Dfs_Bfs;
 import java.util.Arrays;
 import java.util.Scanner;
 
-//¹éÁØ 2606¹ø
+//ë°±ì¤€2606
 public class VirusMove {
 	public static int cnt;
 	public static void dfs(int[][] node, int now, boolean[] visited) {	
