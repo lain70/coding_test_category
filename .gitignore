@@ -1,1 +1,5 @@
 /bin/
+/classes/
+/.idea/
+/.settings/
+/coding_test_category.iml
