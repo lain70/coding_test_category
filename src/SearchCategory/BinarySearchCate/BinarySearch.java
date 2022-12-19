@@ -1,4 +1,4 @@
-package SearchCategory;
+package SearchCategory.BinarySearchCate;
 
 public class BinarySearch {	
 

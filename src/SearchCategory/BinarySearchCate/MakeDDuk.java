@@ -1,4 +1,4 @@
-package SearchCategory;
+package SearchCategory.BinarySearchCate;
 
 import java.util.Arrays;
 
