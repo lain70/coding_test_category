@@ -5,21 +5,57 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+// 백준 1238 파티
 public class JoinParty {
-    static int map[][];
+    static class Node implements Comparable<Node>{
+        int idx;
+        int distance;
+
+        public int getIdx() {
+            return idx;
+        }
+
+        public void setIdx(int idx) {
+            this.idx = idx;
+        }
+
+        public int getDistance() {
+            return distance;
+        }
+
+        public void setDistance(int distance) {
+            this.distance = distance;
+        }
+
+        public Node(int idx, int distance) {
+            this.idx = idx;
+            this.distance = distance;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return Integer.compare(this.distance, o.distance);
+        }
+    }
+    static int n,m,target;
+    static int INF = 100 * 10000 + 1;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int target = Integer.parseInt(st.nextToken());
-        int[] time = new int[n+1];
-        Arrays.fill(time, 101);
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        target = Integer.parseInt(st.nextToken());
 
-        ArrayList<ArrayList<int[]>> list = new ArrayList<>();
-        for(int i = 0; i < m; i++){
-            list.add(new ArrayList<int[]>());
+        int[] go, back;
+        go = new int[n+1];
+        back = new int[n+1];
+
+        ArrayList<ArrayList<Node>> goList = new ArrayList<>();
+        ArrayList<ArrayList<Node>> backList = new ArrayList<>();
+        for(int i = 0; i < n+1; i++){
+            goList.add(new ArrayList<Node>());
+            backList.add(new ArrayList<Node>());
         }
 
         for(int i = 0; i < m; i++){
@@ -28,46 +64,54 @@ public class JoinParty {
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
 
-            list.get(a).add(new int[]{b,c});
+            goList.get(a).add(new Node(b,c));
+            backList.get(b).add(new Node(a,c));
         }
 
-        PriorityQueue<int[]> pq = new PriorityQueue(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] a, int[] b){
-                return Integer.compare(a[1],b[1]);
+        // target 마을에 가는 시간 구하기
+        go = dikstra(goList);
+        // target 마을에서 돌아오는 시간 구하기
+        back = dikstra(backList);
+
+        int result = 0;
+        for(int i = 0; i < n+1; i++){
+            if(i != target && go[i] != INF && back[i] != INF){
+                result = Math.max(result, (go[i] + back[i]));
             }
-        });
+        }
+        System.out.println(result);
+    }
 
-        pq.offer(new int[]{target,0});
-        time[target] = 0;
+    static int[] dikstra(ArrayList<ArrayList<Node>> list){
+        int[] d = new int[n+1];
+        Arrays.fill(d, INF);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+
+        pq.offer(new Node(target,0));
+        d[target] = 0;
         while (!pq.isEmpty()){
-            int[] now = pq.poll();
-            int nowIdx = now[0];
-            int nowTime = now[1];
+            Node now = pq.poll();
+            int nowIdx = now.idx;
+            int nowTime = now.distance;
 
-            if(time[nowIdx] < nowTime){
+            if(d[nowIdx] < nowTime){
+                continue;
+            }
+
+            if(list.size() < 1){
                 continue;
             }
 
             for(int i = 0; i < list.get(nowIdx).size(); i++){
-                int[] next = list.get(nowIdx).get(i);
-                int cost = time[nowIdx] + next[1];
-                if(cost < time[next[0]]){
-                    time[next[0]] = cost;
-                    pq.offer(new int[]{next[0],  cost});
+                Node next = list.get(nowIdx).get(i);
+                int cost = d[nowIdx] + next.distance;
+                if(cost < d[next.idx]){
+                    d[next.idx] = cost;
+                    pq.offer(new Node(next.idx, cost));
                 }
             }
         }
 
-        int result = 0;
-        for(int i = 1 ; i < n+1; i++){
-            System.out.println(time[i]);
-            if(time[i] != 101){
-            result = Math.max(result, time[i]);
-            }
-        }
-
-        System.out.println(result*2);
-
+        return d;
     }
 }
