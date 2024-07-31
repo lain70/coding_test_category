@@ -1,4 +1,4 @@
-package DynamicProgram;
+package DynamicProgram.LCS;
 
 import java.io.BufferedReader;
 import java.io.IOException;
