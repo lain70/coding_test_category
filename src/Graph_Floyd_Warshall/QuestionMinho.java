@@ -3,6 +3,7 @@ package Graph_Floyd_Warshall;
 import java.util.Arrays;
 import java.util.Scanner;
 
+//백준 1507 궁금한 민호
 public class QuestionMinho {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);

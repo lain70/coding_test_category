@@ -1,4 +1,4 @@
-package Floyd;
+package Graph_Floyd_Warshall;
 
 import java.io.BufferedReader;
 import java.io.IOException;
