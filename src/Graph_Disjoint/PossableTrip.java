@@ -1,4 +1,4 @@
-package Graph;
+package Graph_Disjoint;
 
 import java.util.Arrays;
 import java.util.Scanner;
