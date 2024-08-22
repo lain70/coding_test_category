@@ -1,74 +1,63 @@
 package Implementation;
 
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class RobotCleaner {
-	public static int turnLeft(int direction) {
-		if (direction == 0) {
-			return 3;
-		} else {
-			return direction - 1;
+	static int N, M, r, c, d;
+	static int[][] arr;
+	static int count = 1; //시작 지점은 항상 청소되어 있지 않음
+	static int[] dx = {-1, 0, 1, 0};
+	static int[] dy = {0, 1, 0, -1};
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.valueOf(st.nextToken());
+		M = Integer.valueOf(st.nextToken());
+		st = new StringTokenizer(br.readLine());
+		r = Integer.valueOf(st.nextToken());
+		c = Integer.valueOf(st.nextToken());
+		d = Integer.valueOf(st.nextToken());
+
+		arr = new int[N][M];
+		for(int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j = 0; j < M; j++) {
+				arr[i][j] = Integer.valueOf(st.nextToken());
+			}
 		}
+
+		clean(r, c, d);
+		System.out.println(count);
 	}
 
-	public static void main(String[] args) {
-		// ��:0, ��:1, ��:2, ��:3
-		int[] moveX = { -1, 0, 1, 0 };
-		int[] moveY = { 0, 1, 0, -1 };
-		Scanner sc = new Scanner(System.in);
-		String[] info = sc.nextLine().split(" ");
-		int n = Integer.valueOf(info[0]);
-		int m = Integer.valueOf(info[1]);
+	public static void clean(int x, int y, int dir) {
 
-		String[] robotPlace = sc.nextLine().split(" ");
-		int x = Integer.valueOf(robotPlace[0]);
-		int y = Integer.valueOf(robotPlace[1]);
-		int direction = Integer.valueOf(robotPlace[2]);
+		arr[x][y] = -1;
 
-		int[][] map = new int[n][m];
+		for(int i = 0; i < 4; i++) {
+			dir = (dir+3)%4;
 
-		for (int i = 0; i < map.length; i++) {
-			map[i] = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-		}
-
-		boolean[][] vistied = new boolean[n][m];
-		for (boolean[] v : vistied) {
-			Arrays.fill(v, false);
-		}
-		vistied[x][y] = true;
-		int answer = 1;
-		int turnCnt = 0;
-		while (true) {
-			direction = turnLeft(direction);
-
-			int nx = x + moveX[direction];
-			int ny = y + moveY[direction];
-
-			if ((nx >= 0 && n > nx) && (ny >= 0 && m > ny) && (map[nx][ny] == 0 && !vistied[nx][ny])) {
-				vistied[nx][ny] = true;
-				x = nx;
-				y = ny;
-				answer++;
-				turnCnt = 0;
-				continue;
-			} else {
-				turnCnt++;
-			}
-
-			if (turnCnt == 4) {
-				nx = n - moveX[direction];
-				ny = y - moveY[direction];
-				if ((nx >= 0 && n > nx) && (ny >= 0 && m > ny) && (map[nx][ny] == 0)) {
-					x = nx;
-					y = ny;
-					turnCnt = 0;
-				} else {
-					break;
+			int nx = x + dx[dir];
+			int ny = y + dy[dir];
+			if(nx >= 0 && ny >= 0 && nx < N && ny < M) {
+				if(arr[nx][ny] == 0) {
+					count++;
+					clean(nx, ny, dir);
+					return;
 				}
 			}
 		}
-		
-		System.out.println(answer);
+
+		int d = (dir + 2) % 4; //반대 방향으로 후진
+		int bx = x + dx[d];
+		int by = y + dy[d];
+		if(bx >= 0 && by >= 0 && bx < N && by < M && arr[bx][by] != 1) {
+			clean(bx, by, dir); //후진이니까 바라보는 방향은 유지
+		}
 	}
 }
