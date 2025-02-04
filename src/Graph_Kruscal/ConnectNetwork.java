@@ -1,4 +1,4 @@
-package Graph.Kruskal;
+package Graph_Kruscal;
 
 import java.io.BufferedReader;
 import java.io.IOException;

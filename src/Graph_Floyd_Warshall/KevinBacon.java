@@ -1,10 +1,7 @@
 package Graph_Floyd_Warshall;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class KevinBacon {
     final static int MAX = 100*5000;
@@ -51,7 +48,9 @@ public class KevinBacon {
             }
         }
 
-        System.out.println(result);
-
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
     }
 }

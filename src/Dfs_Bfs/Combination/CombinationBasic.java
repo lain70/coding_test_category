@@ -9,6 +9,8 @@ public class CombinationBasic {
         int[] arr = {1, 2, 3, 4};
         int r = 3;
         boolean[] visited = new boolean[arr.length];
+
+        Arrays.stream(arr).max().orElse(0);
         Arrays.fill(visited, false);
         combination(arr, visited,0, 0, r);
 
